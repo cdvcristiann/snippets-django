@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <div class="card">
+    <h5 class="card-header">Eliminar Registro</h5>
+    <div class="card-body">
+      <p class="card-text">¿Estas seguro de eliminar el registro N° {{ object.id }}?</p>
+      <button type="submit" class="btn btn-primary btn-flat">
+        <i class="fas fa-save"></i> Si, aceptar
+    </button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

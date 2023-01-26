@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <h1>Snippets</h1>
+            <br>
+            
+            <!-- SNIPPET -->
+    {% for snippets in object_list %}
+            {% if request.user == snippets.user %}
+                <div class="card">
+                    {% if snippets.public == True %}
+                        <h5 class="card-header">{{snippets.name}} <span class="badge badge-success">{{publico}}</span> <a href="{% url 'user_snippets'%}" class="float-right"><small>{{snippets.user}}</small></a></h5>
+                    {% else %}
+                    <h5 class="card-header">{{snippets.name}} <span class="badge badge-warning">{{privado}}</span> <a href="{% url 'user_snippets'%}" class="float-right"><small>{{snippets.user}}</small></a></h5>
+                    {% endif %}
+                    <div class="card-body">
+                        <a href="#"><h5 class="card-title">{{snippets.language}}</h5></a> 
+                        <h6 class="card-subtitle mb-2 text-muted">Creado: {{snippets.updated}}</h6>
+                        <p class="card-text">{{snippets.description}}</p>
+                        <hr>
+                        <a href="{% url 'language' snippets.slug snippets.id %}" class="btn btn-primary">Ver</a>
+                                
+                        <a href="{% url 'snippet_edit' snippets.id %}" class="btn btn-info">Editar</a>
+
+                        <form method="POST" action="{% url 'snippet_delete' snippets.id %}">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirm('Seguro?')" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+            {% else %}
+            <div class="card">
+                {% if snippets.public == True %}
+                    <h5 class="card-header">{{snippets.name}} <span class="badge badge-success">{{publico}}</span> <a href="{% url 'user_snippets' %}" class="float-right"><small>{{snippets.user}}</small></a></h5>
+                
+                <div class="card-body">
+                    <a href="#"><h5 class="card-title">{{snippets.name}}</h5></a> 
+                    <h6 class="card-subtitle mb-2 text-muted">Creado: {{snippets.created}}</h6>
+                    <p class="card-text">{{snippets.description}}</p>
+                    <hr>
+                    <a href="{% url 'language' snippets.slug snippets.id %}" class="btn btn-primary">Ver</a>
+                            
+                </div>
+                {% endif %}
+            </div>
+            <hr>
+            {% endif %}
+    {% endfor %}
+            <br>
+            <!-- FIN SNIPPET -->
+    </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load pygmentify_tags %}
+{% block content %}
+<link rel="stylesheet" href="{% pygmentify_css %}">
+{% pygmentify %}
+<div class="row justify-content-md-center">
+  <div class="col-md-8">
+    <br>
+    <div class="card">
+      <h5 class="card-header">{{snippets_all.name}} <a href="{% url 'user_snippets' %}" class="float-right"><small>{{snippets_all.user}}</small></a></h5>
+      <div class="card-body">
+        <a href="#"><h5 class="card-title">{{snippets_all.language.slug}}</h5></a> 
+        <h6 class="card-subtitle mb-2 text-muted">{{snippets_all.updated}}</h6>
+        <p class="card-text">{{snippets_all.description}}</p>
+        <div style="background-color:lightgray;border-radius: 5px;">
+          <!-- Código del Snippet -->
+          <pre class="{{snippets_allanguage.slug}}">
+            {{snippets_all.snippet}}
+          </pre>
+          <!-- Código del Snippet -->
+        </div>
+        <hr>
+        <br>
+        <a href="{% url 'snippet_edit' snippets_all.id %}" class="btn btn-info">Editar</a>
+        <form method="POST" action="{% url 'snippet_delete' snippets_all.id %}">
+          {% csrf_token %}
+          <button type="submit" onclick="return confirm('Seguro?')" class="btn btn-danger">Eliminar</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endpygmentify %}
+{% endblock %}
